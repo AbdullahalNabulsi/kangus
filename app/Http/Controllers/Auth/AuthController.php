@@ -29,6 +29,4 @@ class AuthController extends Controller
             return ['token'=>$token];
         }
     }
-
-    
 }
