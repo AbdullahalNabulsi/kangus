@@ -7,59 +7,37 @@ use Illuminate\Http\Request;
 
 class QuotationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $Quotation = Quotation::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $Quotation
+        ]);
+    }
+
     public function index()
     {
-        //
+        $Quotation = Quotation::all();
+        return $this->SuccessResponse([
+            "data" => $Quotation
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $Quotation = Quotation::create($request->toArray());
+        return $this->SuccessResponse($Quotation, '', "Created Successfuly");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Quotation $quotation)
+    public function update(Request $request, $id)
     {
-        //
+        Quotation::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Quotation $quotation)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Quotation $quotation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Quotation $quotation)
-    {
-        //
+        Quotation::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }

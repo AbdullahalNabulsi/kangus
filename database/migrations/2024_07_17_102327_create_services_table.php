@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('english_note')->nullable();
             $table->string('description')->nullable();
             $table->tinyInteger('active')->default(1);
+            $table->timestamps();
         });
 
         Schema::create('services_translations', function (Blueprint $table) {

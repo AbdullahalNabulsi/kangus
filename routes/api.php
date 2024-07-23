@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\RentToolsController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +36,26 @@ Route::prefix('products')->middleware('auth:sanctum')->group(function () {
 
 Route::prefix('services')->middleware('auth:sanctum')->group(function () {
     Route::resource('service', ServicesController::class);
+});
+
+Route::prefix('address')->middleware('auth:sanctum')->group(function () {
+    Route::resource('addres', AddressController::class);
+});
+
+Route::prefix('product-types')->middleware('auth:sanctum')->group(function () {
+    Route::resource('product-type', ProductTypeController::class);
+});
+
+Route::prefix('tools')->middleware('auth:sanctum')->group(function () {
+    Route::resource('tool', ToolsController::class);
+});
+
+Route::prefix('rent-tools')->middleware('auth:sanctum')->group(function () {
+    Route::resource('rent-tool', RentToolsController::class);
+});
+
+Route::prefix('quotations')->middleware('auth:sanctum')->group(function () {
+    Route::resource('quotation', QuotationController::class);
 });
 
 Route::prefix('auth')->middleware('auth:sanctum')->group(function () {

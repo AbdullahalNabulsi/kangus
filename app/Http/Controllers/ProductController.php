@@ -7,59 +7,37 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $Product = Product::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $Product
+        ]);
+    }
+
     public function index()
     {
-        //
+        $Product = Product::all();
+        return $this->SuccessResponse([
+            "data" => $Product
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $Product = Product::create($request->toArray());
+        return $this->SuccessResponse($Product, '', "Created Successfuly");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        Product::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product)
-    {
-        //
+        Product::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }
