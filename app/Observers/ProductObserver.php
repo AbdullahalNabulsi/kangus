@@ -9,6 +9,15 @@ class ProductObserver
     /**
      * Handle the {{ model }} "created" event.
      */
+    public function creating(Product $product): void
+    {
+        $last_uuid_product = Product::latest()->first();
+        $product->uuid = $last_uuid_product->uuid + 1;
+    }
+    
+    /**
+     * Handle the {{ model }} "created" event.
+     */
     public function created(Product $product): void
     {
         //
