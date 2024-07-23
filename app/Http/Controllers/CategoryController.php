@@ -7,59 +7,37 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $Addres = Category::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $Addres
+        ]);
+    }
+
     public function index()
     {
-        //
+        $Category = Category::all();
+        return $this->SuccessResponse([
+            "data" => $Category
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $Category = Category::create($request->toArray());
+        return $this->SuccessResponse($Category, '', "Created Successfuly");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        Category::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
+        Category::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }

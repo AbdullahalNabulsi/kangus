@@ -7,59 +7,37 @@ use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $Unit = Unit::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $Unit
+        ]);
+    }
+
     public function index()
     {
-        //
+        $Unit = Unit::all();
+        return $this->SuccessResponse([
+            "data" => $Unit
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $Unit = Unit::create($request->toArray());
+        return $this->SuccessResponse($Unit, '', "Created Successfuly");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Unit $unit)
+    public function update(Request $request, $id)
     {
-        //
+        Unit::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Unit $unit)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Unit $unit)
-    {
-        //
+        Unit::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }

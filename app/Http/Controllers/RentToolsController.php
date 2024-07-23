@@ -7,59 +7,37 @@ use Illuminate\Http\Request;
 
 class RentToolsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $RentTools = RentTools::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $RentTools
+        ]);
+    }
+
     public function index()
     {
-        //
+        $RentTools = RentTools::all();
+        return $this->SuccessResponse([
+            "data" => $RentTools
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $RentTools = RentTools::create($request->toArray());
+        return $this->SuccessResponse($RentTools, '', "Created Successfuly");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(RentTools $rentTools)
+    public function update(Request $request, $id)
     {
-        //
+        RentTools::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RentTools $rentTools)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RentTools $rentTools)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RentTools $rentTools)
-    {
-        //
+        RentTools::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }

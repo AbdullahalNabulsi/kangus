@@ -7,59 +7,44 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $Image = Image::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $Image
+        ]);
+    }
+
     public function index()
     {
-        //
+        $Image = Image::all();
+        return $this->SuccessResponse([
+            "data" => $Image
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $Image = Image::create($request->toArray());
+            return $this->SuccessResponse($Image, '', "Created Successfuly");
+            //code...
+        } catch (\Throwable $th) {
+            return $th;
+            //throw $th;
+        }
+      
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Image $image)
+    public function update(Request $request, $id)
     {
-        //
+        Image::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Image $image)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Image $image)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Image $image)
-    {
-        //
+        Image::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }

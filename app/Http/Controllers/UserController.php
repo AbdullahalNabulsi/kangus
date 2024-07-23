@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        User::find($id)->update([$request]);
+        User::find($id)->update($request->toArray());
         return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 

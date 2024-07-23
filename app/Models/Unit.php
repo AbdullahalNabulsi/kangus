@@ -9,7 +9,12 @@ class Unit extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'symbol',
+        'active',
+        'is_minimum',
+        'uuid',
+    ];
 
     protected $hidden = [
         'created_at',

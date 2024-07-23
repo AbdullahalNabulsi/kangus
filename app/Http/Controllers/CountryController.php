@@ -7,59 +7,44 @@ use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $Country = Country::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $Country
+        ]);
+    }
+
     public function index()
     {
-        //
+        $Country = Country::all();
+        return $this->SuccessResponse([
+            "data" => $Country
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $Country = Country::create($request->toArray());
+            return $this->SuccessResponse($Country, '', "Created Successfuly");
+            //code...
+        } catch (\Throwable $th) {
+            return $th;
+            //throw $th;
+        }
+      
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Country $country)
+    public function update(Request $request, $id)
     {
-        //
+        Country::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Country $country)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Country $country)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Country $country)
-    {
-        //
+        Country::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }

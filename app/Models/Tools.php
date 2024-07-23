@@ -9,7 +9,11 @@ class Tools extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'description',
+        'categories_id',
+        'size',
+    ];
 
     protected $hidden = [
         'created_at',
