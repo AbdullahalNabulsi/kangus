@@ -7,59 +7,44 @@ use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $City = City::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $City
+        ]);
+    }
+
     public function index()
     {
-        //
+        $City = City::all();
+        return $this->SuccessResponse([
+            "data" => $City
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $City = City::create($request->toArray());
+            return $this->SuccessResponse($City, '', "Created Successfuly");
+            //code...
+        } catch (\Throwable $th) {
+            return $th;
+            //throw $th;
+        }
+      
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(City $city)
+    public function update(Request $request, $id)
     {
-        //
+        City::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(City $city)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, City $city)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(City $city)
-    {
-        //
+        City::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }

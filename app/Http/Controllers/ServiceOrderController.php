@@ -7,59 +7,44 @@ use Illuminate\Http\Request;
 
 class ServiceOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function show($id)
+    {
+        $ServiceOrder = ServiceOrder::findOrFail($id);
+        return $this->SuccessResponse([
+            "data" => $ServiceOrder
+        ]);
+    }
+
     public function index()
     {
-        //
+        $ServiceOrder = ServiceOrder::all();
+        return $this->SuccessResponse([
+            "data" => $ServiceOrder
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $ServiceOrder = ServiceOrder::create($request->toArray());
+            return $this->SuccessResponse($ServiceOrder, '', "Created Successfuly");
+            //code...
+        } catch (\Throwable $th) {
+            return $th;
+            //throw $th;
+        }
+      
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ServiceOrder $serviceOrder)
+    public function update(Request $request, $id)
     {
-        //
+        ServiceOrder::find($id)->update($request->toArray());
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ServiceOrder $serviceOrder)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ServiceOrder $serviceOrder)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ServiceOrder $serviceOrder)
-    {
-        //
+        ServiceOrder::find($id)->delete();
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }
