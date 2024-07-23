@@ -101,56 +101,30 @@ class RoleSeeder extends Seeder
             ],
         ];
 
-        $this->syncPosEmployeePermission();
-    }
-
-    public function setSeederIdToRoles($roles)
-    {
-
         $existsRoles = DB::table('roles')->where('seeder_id', null)->get();
-
-        foreach ($roles as $key1 => $role) {
-            foreach ($existsRoles as $key2 => $existsRole) {
-                $roleNames = is_array($existsRole->name) ? strtoupper($existsRole->name) : [strtoupper($existsRole->name)];
-                if (in_array(strtoupper($role['name']), $roleNames)) {
-                    DB::table('roles')->where('id', $existsRole->id)->update([
-                        'seeder_id' => $role['seeder_id']
-                    ]);
-                    break;
-                }
+        foreach ($roles as $key => $role) {
+            if (in_array($role['seeder_id'], $existsRoles->toArray())) {
+                continue;
             }
+
+            $roleId = DB::table('roles')->insertGetId([
+                'seeder_id' => $role['seeder_id'],
+                'name' => $role['name'],
+                'guard_name' => $role['guard_name'],
+                'module_id' => $role['module_id'],
+            ]);
+
+            DB::table('role_translations')->insert([
+                [
+                    'role_id' => $roleId,
+                    'locale' => 'en',
+                    'display_name' => $role['en']['display_name'],
+                ], [
+                    'role_id' => $roleId,
+                    'locale' => 'ar',
+                    'display_name' => $role['ar']['display_name'],
+                ],
+            ]);
         }
-    }
-    public function syncPosEmployeePermission()
-    {
-
-        $rolePosEmployee = DB::table('roles')->where('seeder_id', RolesEnum::EMPLOYEE_POS_SEEDER_ID)->first();
-        if (!$rolePosEmployee)
-            return;
-
-        $permissions = $this->getPosEmployeePermission();
-
-        foreach ($permissions as $key => $permission) {
-            $role_has_permissions_exists = DB::table('role_has_permissions')
-                ->where('permission_id', $permission->id)
-                ->where('role_id', $rolePosEmployee->id)
-                ->first();
-
-
-            if (!$role_has_permissions_exists) {
-                DB::table('role_has_permissions')->insert([
-                    'permission_id' => $permission->id,
-                    'role_id' => $rolePosEmployee->id,
-                ]);
-            }
-        }
-    }
-
-    public function getPosEmployeePermission()
-    {
-
-        $permissions_names = (new RoleService)->getListPermissionsForPos();
-
-        return DB::table('permissions')->whereIn('name', $permissions_names)->get();
     }
 }

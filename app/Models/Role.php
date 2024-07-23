@@ -9,17 +9,17 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-        'guard_name',
-        'pivot',
-    ];
-
     protected $fillable = [
         'name',
         'module_id',
         'seeder_id',
         'guard_name'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'guard_name',
+        'pivot',
     ];
 }

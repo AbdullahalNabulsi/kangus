@@ -9,7 +9,6 @@ trait ResponseTrait
         return response()->json([
             'code' => $code,
             'message' => $message,
-            'hint' => $hint,
             'success' => true,
             'result' => $data,
             'errors' => $errors,
@@ -21,7 +20,6 @@ trait ResponseTrait
         return response()->json([
             'code' => $code,
             'message' => $message,
-            'hint' => $hint,
             'success' => false,
             'result' => $data,
             'errors' => $errors,

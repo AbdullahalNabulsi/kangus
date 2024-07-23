@@ -2,33 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function show(Request $request,$id)
+    public function show($id)
     {
         $user = User::findOrFail($id);
-        return $user;
+        return $this->SuccessResponse([
+            "data" => $user
+        ]);
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $users = User::all();
-        return $users;
+        return $this->SuccessResponse([
+            "data" => $users
+        ]);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         User::find($id)->update([$request]);
-        return "Updated Successfuly";
+        return $this->SuccessResponse('', '', "Updated Successfuly");
     }
 
     public function destroy($id)
     {
         User::find($id)->delete();
-        return "Deleted Successfuly";
+        return $this->SuccessResponse('', '', "Deleted Successfuly");
     }
 }
