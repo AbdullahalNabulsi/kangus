@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('product_orders', function (Blueprint $table) {
             $table->id();
+            $table->enum('status', ["pending", "Approved", "Accepted", "Rejected"])->nullable()->default("pending");
+            $table->decimal('total')->nullable();
+            $table->decimal('total_discount')->nullable();
+            $table->decimal('net_total')->nullable();
+            $table->string('discount_type')->nullable();
+            $table->bigInteger('coupon_id')->unsigned();
+            $table->foreign('coupon_id')
+                ->references('id')
+                ->on('coupons')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
